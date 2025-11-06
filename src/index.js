@@ -38,23 +38,23 @@ export const getGcd = (a, b) => {
 }
 
 export const getProgression = () => {
-  let progression = ''
-  let correctResult
   const start = getRandomInt(30)
   const step = getRandomInt(10) + 1
   const length = 10
-  const missing = getRandomInt(length)
+  const missingIndex = getRandomInt(length)
+  const progression = []
   for (let i = 0; i < length; i++) {
-    let stepProgression = (start + i * step).toString()
-    if (i === missing) {
-      progression += ', ..'
-      correctResult = stepProgression
+    if (i === missingIndex) {
+      progression.push('..')
     }
     else {
-      progression += ', ' + stepProgression
+      progression.push((start + i * step).toString())
     }
   }
-  return { correctResult, progression }
+  return {
+    correctResult: (start + missingIndex * step).toString(),
+    progression: progression.join(', '),
+  }
 }
 
 export const isPrime = (number) => {
