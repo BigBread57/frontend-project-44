@@ -1,7 +1,7 @@
 install:
 	npm ci
 brain-games:
-	node bin/brain-games.js
+	@script -q -c "node bin/brain-games.js" /dev/null
 publish:
 	npm publish --dry-run
 make lint:

@@ -4,21 +4,22 @@ import {
   getCongratulationMessage,
   getCorrectMessage,
   getErrorMessage,
+  getGcd,
   getRandomInt,
   getStartMessage,
-  isEven,
 } from './index.js'
 
-const brainEven = () => {
+const brainGcd = () => {
   const name = getStartMessage()
-  console.log('Answer "yes" if the number is even, otherwise answer "no".')
+  console.log('Find the greatest common divisor of given numbers.')
   let correctAnswersCount = 0
   while (correctAnswersCount !== 3) {
-    const randomNumber = getRandomInt(1000)
-    console.log(`Question: ${randomNumber}`)
+    const randomNumberOne = getRandomInt(50) + 1
+    const randomNumberTwo = getRandomInt(50) + 1
+    console.log(`Question: ${randomNumberOne} ${randomNumberTwo}`)
     const userAnswer = readlineSync.question('Your answer:')
-    const correctResult = isEven(randomNumber) ? 'yes' : 'no'
-    if (userAnswer === correctResult) {
+    let correctResult = getGcd(randomNumberOne, randomNumberTwo)
+    if (userAnswer === correctResult.toString()) {
       getCorrectMessage()
       correctAnswersCount += 1
     }
@@ -30,4 +31,4 @@ const brainEven = () => {
   getCongratulationMessage(name)
 }
 
-export default brainEven
+export default brainGcd

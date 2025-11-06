@@ -4,20 +4,18 @@ import {
   getCongratulationMessage,
   getCorrectMessage,
   getErrorMessage,
-  getRandomInt,
+  getProgression,
   getStartMessage,
-  isEven,
 } from './index.js'
 
-const brainEven = () => {
+const brainProgression = () => {
   const name = getStartMessage()
-  console.log('Answer "yes" if the number is even, otherwise answer "no".')
+  console.log('What number is missing in the progression?')
   let correctAnswersCount = 0
   while (correctAnswersCount !== 3) {
-    const randomNumber = getRandomInt(1000)
-    console.log(`Question: ${randomNumber}`)
+    const { correctResult, progression } = getProgression()
+    console.log(`Question: ${progression}`)
     const userAnswer = readlineSync.question('Your answer:')
-    const correctResult = isEven(randomNumber) ? 'yes' : 'no'
     if (userAnswer === correctResult) {
       getCorrectMessage()
       correctAnswersCount += 1
@@ -30,4 +28,4 @@ const brainEven = () => {
   getCongratulationMessage(name)
 }
 
-export default brainEven
+export default brainProgression

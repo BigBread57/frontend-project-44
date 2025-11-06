@@ -5,19 +5,18 @@ import {
   getCorrectMessage,
   getErrorMessage,
   getRandomInt,
-  getStartMessage,
-  isEven,
+  getStartMessage, isPrime,
 } from './index.js'
 
-const brainEven = () => {
+const brainPrime = () => {
   const name = getStartMessage()
-  console.log('Answer "yes" if the number is even, otherwise answer "no".')
+  console.log('Answer "yes" if given number is prime. Otherwise answer "no".')
   let correctAnswersCount = 0
   while (correctAnswersCount !== 3) {
-    const randomNumber = getRandomInt(1000)
+    const randomNumber = getRandomInt(100) + 1
     console.log(`Question: ${randomNumber}`)
     const userAnswer = readlineSync.question('Your answer:')
-    const correctResult = isEven(randomNumber) ? 'yes' : 'no'
+    let correctResult = isPrime(randomNumber)
     if (userAnswer === correctResult) {
       getCorrectMessage()
       correctAnswersCount += 1
@@ -30,4 +29,4 @@ const brainEven = () => {
   getCongratulationMessage(name)
 }
 
-export default brainEven
+export default brainPrime
