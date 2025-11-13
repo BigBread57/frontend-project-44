@@ -1,77 +1,130 @@
 import readlineSync from 'readline-sync'
+import {
+  getCongratulationMessage,
+  getCorrectMessage,
+  getErrorMessage,
+  getGcd,
+  getProgression,
+  getRandomInt,
+  getStartMessage,
+  isEven,
+  isPrime,
+} from './utils.js'
+import _ from 'lodash'
 
-export const getRandomInt = (max) => {
-  return Math.floor(Math.random() * max)
-}
-
-export const isEven = (num) => {
-  return num % 2 === 0
-}
-
-export const getStartMessage = () => {
-  console.log('Welcome to the Brain Games!')
-  const name = readlineSync.question('May I have your name? ')
-  console.log(`Hello, ${name}!`)
-  return name
-}
-
-export const getErrorMessage = (userAnswer, correctResult, name) => {
-  console.log(
-    `'${userAnswer}' is wrong answer ;(. Correct answer was '${correctResult}'.\n`
-    + `Let's try again, ${name}!`,
-  )
-}
-
-export const getCorrectMessage = () => {
-  console.log('Correct!')
-}
-
-export const getCongratulationMessage = (name) => {
-  console.log(`Congratulations, ${name}!`)
-}
-
-export const getGcd = (a, b) => {
-  if (b === 0) {
-    return a
+export const brainEvenLogic = (name) => {
+  const randomNumber = getRandomInt(1000)
+  console.log(`Question: ${randomNumber}`)
+  const userAnswer = readlineSync.question('Your answer:')
+  const correctResult = isEven(randomNumber) ? 'yes' : 'no'
+  if (userAnswer === correctResult) {
+    getCorrectMessage()
+    return 1
   }
-  return getGcd(b, a % b)
+  else {
+    getErrorMessage(userAnswer, correctResult, name)
+  }
 }
 
-export const getProgression = () => {
-  const start = getRandomInt(30)
-  const step = getRandomInt(10) + 1
-  const length = 10
-  const missingIndex = getRandomInt(length)
-  const progression = []
-  for (let i = 0; i < length; i++) {
-    if (i === missingIndex) {
-      progression.push('..')
+export const brainCalcLogic = (name, mathOperations) => {
+  const randomNumberOne = getRandomInt(50)
+  const randomNumberTwo = getRandomInt(50)
+  const randomMathOperations = _.sample(mathOperations)
+
+  console.log(`Question: ${randomNumberOne} ${randomMathOperations} ${randomNumberTwo}`)
+  const userAnswer = readlineSync.question('Your answer:')
+  let correctResult
+  switch (randomMathOperations) {
+    case '+':
+      correctResult = randomNumberOne + randomNumberTwo
+      break
+    case '-':
+      correctResult = randomNumberOne - randomNumberTwo
+      break
+    case '*':
+      correctResult = randomNumberOne * randomNumberTwo
+      break
+  }
+  correctResult = correctResult.toString()
+  if (userAnswer === correctResult) {
+    getCorrectMessage()
+    return 1
+  }
+  else {
+    getErrorMessage(userAnswer, correctResult, name)
+  }
+}
+
+export const brainGcdLogic = (name) => {
+  const randomNumberOne = getRandomInt(50) + 1
+  const randomNumberTwo = getRandomInt(50) + 1
+  console.log(`Question: ${randomNumberOne} ${randomNumberTwo}`)
+  const userAnswer = readlineSync.question('Your answer:')
+  let correctResult = getGcd(randomNumberOne, randomNumberTwo)
+  if (userAnswer === correctResult.toString()) {
+    getCorrectMessage()
+    return 1
+  }
+  else {
+    getErrorMessage(userAnswer, correctResult, name)
+  }
+}
+
+export const brainPrimeLogic = (name) => {
+  const randomNumber = getRandomInt(100) + 1
+  console.log(`Question: ${randomNumber}`)
+  const userAnswer = readlineSync.question('Your answer:')
+  let correctResult = isPrime(randomNumber)
+  if (userAnswer === correctResult) {
+    getCorrectMessage()
+    return 1
+  }
+  else {
+    getErrorMessage(userAnswer, correctResult, name)
+  }
+}
+
+export const brainProgressionLogic = (name) => {
+  const { correctResult, progression } = getProgression()
+  console.log(`Question: ${progression}`)
+  const userAnswer = readlineSync.question('Your answer:')
+  if (userAnswer === correctResult) {
+    getCorrectMessage()
+    return 1
+  }
+  else {
+    getErrorMessage(userAnswer, correctResult, name)
+  }
+}
+
+export const logicGame = (gameName, startMessage) => {
+  const name = getStartMessage()
+  console.log(startMessage)
+  let correctAnswersCount = 0
+  const mathOperations = ['+', '-', '*']
+  try {
+    while (correctAnswersCount !== 3) {
+      switch (gameName) {
+        case 'brainEven':
+          correctAnswersCount += brainEvenLogic(name)
+          break
+        case 'brainCalc':
+          correctAnswersCount += brainCalcLogic(name, mathOperations)
+          break
+        case 'brainGcd':
+          correctAnswersCount += brainGcdLogic(name)
+          break
+        case 'brainPrime':
+          correctAnswersCount += brainPrimeLogic(name)
+          break
+        case 'brainProgression':
+          correctAnswersCount += brainProgressionLogic(name)
+          break
+      }
     }
-    else {
-      progression.push((start + i * step).toString())
-    }
+    getCongratulationMessage(name)
   }
-  return {
-    correctResult: (start + missingIndex * step).toString(),
-    progression: progression.join(', '),
+  catch (error) {
+    console.log(error.message)
   }
-}
-
-export const isPrime = (number) => {
-  if (number <= 1) {
-    return 'no'
-  }
-  if (number === 2) {
-    return 'yes'
-  }
-  if (number % 2 === 0) {
-    return 'no'
-  }
-
-  for (let i = 3; i < Math.sqrt(number) + 1; i++) {
-    if (number % i === 0) {
-      return 'no'
-    }
-  }
-  return 'yes'
 }
