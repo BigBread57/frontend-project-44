@@ -53,7 +53,7 @@ export const getProgression = () => {
   }
   return {
     correctResult: (start + missingIndex * step).toString(),
-    progression: progression.join(', '),
+    progression: progression.join(' '),
   }
 }
 
