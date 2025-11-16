@@ -6,7 +6,7 @@ import {
 const brainEven = () => {
   logicGame(
     'brainEven',
-    'What is the result of the expression?',
+    'Answer "yes" if the number is even, otherwise answer "no".',
   )
 }
 
